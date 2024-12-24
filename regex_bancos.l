@@ -44,8 +44,9 @@ map<string, string> codigos_bancos;
 cuentaEspanola   ES[0-9]{2}( [0-9]{4}){5}
 
 %%
-    /*---------------REGLAS---------------*/
-cuentaEspanola    {cuentas_espanolas.insert(yytext);}
+    /* ---------------REGLAS--------------- */
+
+ES[0-9]{2}(" "[0-9]{4}){5}    {cuentas_espanolas.insert(yytext);}
 
 %%
     /*---------------PROCEDIMIENTOS---------------*/
@@ -89,6 +90,20 @@ vector<string> split(const string& str, char delimiter) {
     return tokens;
 }
 
+int calcularRestoPor97(const std::string& numero) {
+    long long resto = 0;
+    
+    // Iteramos sobre cada carácter de la cadena
+    for (char c : numero) {
+        // Convertimos el carácter a su valor numérico
+        int digito = c - '0';
+        
+        // Actualizamos el resto utilizando la aritmética modular
+        resto = (resto * 10 + digito) % 97;
+    }
+    
+    return resto;
+}
 
 /**
  * @brief Función que comprueba si una cuenta bancaria española es válida.
@@ -110,7 +125,9 @@ bool cuenta_espanola_valida(const string &cuenta){
 
     string CCC_str = cuenta_sin_espacios.substr(4);
     string aux = CCC_str + "1428" + + "00";
-    int codigo_calculado = 98 - (stoi(aux) % 97);
+    
+    int resto=calcularRestoPor97(aux);
+    int codigo_calculado = 98 - resto;
 
     return codigo_seguridad == codigo_calculado;
 }
@@ -118,7 +135,6 @@ bool cuenta_espanola_valida(const string &cuenta){
 
 
 int main (int argc, char *argv[]){
-
     // Comprobamos que se ha introducido un archivo
     if (argc == 2){
         fichero.open (argv[1]);
@@ -147,7 +163,11 @@ int main (int argc, char *argv[]){
     int pos_codigo=0, pos_nombre=0;
     getline(f_bancos, linea);
     vector<string> campos= split(linea, ',');
-    for (int i = 0; i < campos.size(); i++){
+
+    // El static_cast<int> es necesario para evitar un warning
+    // pues se trabaja con tipo size_type comparado con int
+
+    for (int i = 0; i < static_cast<int>(campos.size()); i++){
         if (campos[i] == "CÓDIGO EUROPEO")
             pos_codigo = i;
         else if (campos[i] == "NOMBRE")
@@ -160,29 +180,36 @@ int main (int argc, char *argv[]){
     }
     f_bancos.close();
 
-    cout << "Cuentas leidas: " << endl;
     yyFlexLexer flujo (&fichero,0);
     flujo.yylex();
-    cout << endl << endl;
 
-    
+    cout << "Cuentas leidas: " << endl;
     set<string> cuentas_espanolas_no_validas;
 
     // Cada cuenta española, vemos si es válida
-    for (auto it = cuentas_espanolas.begin(); it != cuentas_espanolas.end(); it++){
-        cout << *it << " ";
+
+    // Lo haremos con un bucle while, ya que tenemos que tener en cuenta que al eliminar un elemento
+    // la función .erase(iterator) devuelve el iterador apuntando al siguiente elemento, por lo que
+    // no debemos sumar nada a it. Solo se suma si no se elimina elemento.
+
+    auto it = cuentas_espanolas.begin();
+    while (it != cuentas_espanolas.end()){
+        cout << *it << " " << endl;
+
         if (!cuenta_espanola_valida(*it)){
             // No es válida. La eliminamos de cuentas españolas, y la añadimos al conjunto de cuentas no válidas
-            cuentas_espanolas.erase(it);
             cuentas_espanolas_no_validas.insert(*it);
+            it=cuentas_espanolas.erase(it);
         }
+        else
+            it++;
     }
 
     // Cada cuenta española, la asignamos a un banco
     for (auto it = cuentas_espanolas.begin(); it != cuentas_espanolas.end(); it++){
 
         string nombre_banco = "Banco Desconocido";
-        string codigo_banco = it->substr(4, 4);
+        string codigo_banco = "ES"+it->substr(5, 4);
 
         if (codigos_bancos.find(codigo_banco) != codigos_bancos.end())
             nombre_banco = codigos_bancos[codigo_banco];
@@ -190,7 +217,7 @@ int main (int argc, char *argv[]){
         cuentas_banco[nombre_banco].insert(*it);
     }
 
-
+    cout << endl;
     // Mostramos los resultados
     cout << "Cuentas españolas no válidas: " << endl;
     for (auto it = cuentas_espanolas_no_validas.begin(); it != cuentas_espanolas_no_validas.end(); it++)
