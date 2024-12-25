@@ -19,10 +19,15 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <fstream>
+
 
 using namespace std;
 
 int nl;
+
+ofstream prueba;
+
 %}
 
 %option noyywrap
@@ -47,31 +52,47 @@ void imprime_menu(){
 
 
 int main (int argc, char *argv[]){
+    const string INICIAL="0";
 
     nl = 0;
     string input;
     string line;
     stringstream ss;
 
-    string opcion_elegida;
+    string opcion_elegida=INICIAL;
+    string comando, archivo;
 
 
     cout << "En el siguiente programa, encontrarás un menú que te permitirá trabajar con distintas expresiones regulares." << endl;
     imprime_menu();
-    getline(cin, opcion_elegida);
 
-    if (opcion_elegida == "1"){
-        cout << "Has elegido la opción 1" << endl;
-    } else if (opcion_elegida == "2"){
-        cout << "Has elegido la opción 2" << endl;
-    } else if (opcion_elegida == "3"){
-        cout << "Has elegido la opción 3" << endl;
-    } else if (opcion_elegida == "4"){
-        cout << "Has elegido la opción 4" << endl;
-    } else {
-        cout << "Opción no válida" << endl;
+    while(opcion_elegida == INICIAL){
+        getline(cin, opcion_elegida);
+        switch(stoi(opcion_elegida)){
+            case 1:
+                cout << "Has elegido la opción 1" << endl;
+                comando="make telefonos-menu";
+                archivo="Telefonos/telefonos-menu.txt";
+                break;
+            case 2:
+                cout << "Has elegido la opción 2" << endl;
+                break;
+            case 3:
+                cout << "Has elegido la opción 3" << endl;
+                comando="make dni-nie-menu";
+                archivo="DNI-NIE/dni-nie-menu.txt";
+                break;
+            case 4:
+                cout << "Has elegido la opción 4" << endl;
+                comando="make bancos-menu";
+                archivo="Bancos/cuentas-menu.txt";
+                break;
+            default:
+                cout << "Opción no válida" << endl;
+                opcion_elegida=INICIAL;
+                break;
+        }
     }
-
 
     cout << "Introduce texto (termina con -1 en una línea nueva):" << endl;
 
@@ -88,6 +109,25 @@ int main (int argc, char *argv[]){
     istringstream input_stream(input_data);
     yyFlexLexer flujo(&input_stream, 0);
     flujo.yylex();
+    cout << endl;
+
+    // Se abre el archivo definido (se crea si no existe) y con la funcion
+    // ios::trunc se se sobreescribe si ya existía
+    prueba.open(archivo, ios::trunc);
+
+    if (!prueba){
+        cerr << "Error de escritura del archivo (" << archivo << ")." << endl;
+        exit(1);
+    }
+
+    // Se escribe el contenido del stringstream en el archivo
+    prueba << input_data << endl;
+
+    // Se cierre el archivo
+    prueba.close();
+
+    // Se ejecuta el comando definido
+    system(comando.c_str());
 
     cout << "Número de líneas: " << nl << endl;
     return 0;

@@ -5,37 +5,72 @@ FLAGS = -std=c++11 -g -Wall  # Flags para el compilador
 
 # ----------------------------------------------
 INPUT_FILE_BANCO = Bancos/cuentas.txt  # Archivo de entrada
+INPUT_FILE_BANCO-MENU = Bancos/cuentas-menu.txt  # Archivo de entrada
+
 INFO_FILE_BANCO = Bancos/Cods_Bancos.csv  # Archivo de información
 
 # Regla para ejecutar flex++ y generar el código C++ (lex.yy.cc)
 bancos: Bancos/regex_bancos_exe	$(INFO_FILE_BANCO)
 	./$< $(INFO_FILE_BANCO) $(INPUT_FILE_BANCO)  
 
+bancos-menu: Bancos/regex_bancos_exe	$(INFO_FILE_BANCO)
+	./$< $(INFO_FILE_BANCO) $(INPUT_FILE_BANCO-MENU)  
+
 Bancos/regex_bancos.cpp: Bancos/regex_bancos.l
 	$(FLEX) $<
 	mv lex.yy.cc Bancos/regex_bancos.cpp
 
+Bancos/regex_bancos-menu.cpp: Bancos/regex_bancos.l
+	$(FLEX) $<
+	mv lex.yy.cc Bancos/regex_bancos-menu.cpp
+
 # ----------------------------------------------
 INPUT_FILE_DNI-NIE = DNI-NIE/dni-nie.txt  # Archivo de entrada
+INPUT_FILE_DNI-NIE-MENU = DNI-NIE/dni-nie-menu.txt 
 
 # Regla para ejecutar flex++ y generar el código C++ (lex.yy.cc)
 dni-nie: DNI-NIE/regex_dni-nie_exe
 	./$< $(INPUT_FILE_DNI-NIE)  
 
+dni-nie-menu: DNI-NIE/regex_dni-nie-menu_exe
+	./$< $(INPUT_FILE_DNI-NIE-MENU) 
+
 DNI-NIE/regex_dni-nie.cpp: DNI-NIE/regex_dni-nie.l
 	$(FLEX) $<
 	mv lex.yy.cc DNI-NIE/regex_dni-nie.cpp
 
+DNI-NIE/regex_dni-nie-menu.cpp: DNI-NIE/regex_dni-nie.l
+	$(FLEX) $<
+	mv lex.yy.cc DNI-NIE/regex_dni-nie-menu.cpp
+
 # ----------------------------------------------
 INPUT_FILE_TFNO = Telefonos/telefonos.txt  # Archivo de entrada
+INPUT_FILE_TFNO-MENU = Telefonos/telefonos-menu.txt  # Archivo de entrada
+
 
 # Regla para ejecutar flex++ y generar el código C++ (lex.yy.cc)
 telefonos: Telefonos/regex_tfno_exe
-	./$< $(INPUT_FILE_TFNO)  
+	./$< $(INPUT_FILE_TFNO) 
+
+telefonos-menu: Telefonos/regex_tfno-menu_exe
+	./$< $(INPUT_FILE_TFNO-MENU)   
 
 Telefonos/regex_tfno.cpp: Telefonos/regex_tfno.l
 	$(FLEX) $<
 	mv lex.yy.cc Telefonos/regex_tfno.cpp
+
+Telefonos/regex_tfno-menu.cpp: Telefonos/regex_tfno.l
+	$(FLEX) $<
+	mv lex.yy.cc Telefonos/regex_tfno-menu.cpp
+
+# ----------------------------------------------
+
+menu: menu_exe
+	./$<
+
+menu.cpp: menu.l
+	$(FLEX) $<
+	mv lex.yy.cc menu.cpp
 
 # ----------------------------------------------
 
@@ -46,3 +81,4 @@ Telefonos/regex_tfno.cpp: Telefonos/regex_tfno.l
 # Limpiar los archivos generados
 clean:
 	rm -rf */*_exe */*.cpp
+	rm -rf *_exe *.cpp
