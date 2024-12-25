@@ -16,7 +16,15 @@ Bancos/regex_bancos.cpp: Bancos/regex_bancos.l
 	mv lex.yy.cc Bancos/regex_bancos.cpp
 
 # ----------------------------------------------
-dni: 
+INPUT_FILE_DNI-NIE = DNI-NIE/dni-nie.txt  # Archivo de entrada
+
+# Regla para ejecutar flex++ y generar el código C++ (lex.yy.cc)
+dni-nie: DNI-NIE/regex_dni-nie_exe
+	./$< $(INPUT_FILE_DNI-NIE)  
+
+DNI-NIE/regex_dni-nie.cpp: DNI-NIE/regex_dni-nie.l
+	$(FLEX) $<
+	mv lex.yy.cc DNI-NIE/regex_dni-nie.cpp
 
 
 
