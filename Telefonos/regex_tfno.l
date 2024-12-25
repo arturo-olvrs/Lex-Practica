@@ -41,7 +41,8 @@ tfno_espanol_grupos2  ((00|"+")34(" ")?)?([0-9]{3}(" ")?){1}([0-9]{2}(" ")?){3}
     /* ---------------REGLAS--------------- */
 
 {tfno_espanol_grupos3}|{tfno_espanol_grupos2}   {   tfno_pais["España"].insert(yytext);}
-.   {   cout << "\t- " << yytext << endl; }
+\n                  {   ; }
+[^ \n]+             {   cout << "\t- " << yytext << endl; }
 
 %%
     /*---------------PROCEDIMIENTOS---------------*/

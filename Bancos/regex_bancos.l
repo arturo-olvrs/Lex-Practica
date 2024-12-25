@@ -46,7 +46,7 @@ cuentaEspanola  ES[0-9]{2}(" "[0-9]{4}){5}
 
 {cuentaEspanola}    {   cuentas_espanolas.insert(yytext);}
 \n                  {   ; }
-.                   {   cout << "\t- " << yytext << endl; }
+[^ \n]+             {   cout << "\t- " << yytext << endl; }
 
 %%
     /*---------------PROCEDIMIENTOS---------------*/
@@ -132,6 +132,8 @@ bool cuenta_espanola_valida(const string &cuenta){
     // Eliminamos los espacios
     string cuenta_sin_espacios = cuenta;
     cuenta_sin_espacios.erase(remove(cuenta_sin_espacios.begin(), cuenta_sin_espacios.end(), ' '), cuenta_sin_espacios.end());
+    cuenta_sin_espacios.erase(remove(cuenta_sin_espacios.begin(), cuenta_sin_espacios.end(), '\n'), cuenta_sin_espacios.end());
+    cuenta_sin_espacios.erase(remove(cuenta_sin_espacios.begin(), cuenta_sin_espacios.end(), '\t'), cuenta_sin_espacios.end());
 
     // Obtenemos el código de seguridad, los dígitos 2 y 3 (empezando desde 0)
     int codigo_seguridad = stoi(cuenta_sin_espacios.substr(2, 2));

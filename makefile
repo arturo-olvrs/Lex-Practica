@@ -37,7 +37,7 @@ Telefonos/regex_tfno.cpp: Telefonos/regex_tfno.l
 	$(FLEX) $<
 	mv lex.yy.cc Telefonos/regex_tfno.cpp
 
-
+# ----------------------------------------------
 
 # Regla para compilar el código C++ generado por flex++
 %_exe: %.cpp
