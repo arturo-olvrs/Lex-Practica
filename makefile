@@ -8,7 +8,7 @@ INPUT_FILE_BANCO = Bancos/cuentas.txt  # Archivo de entrada
 INFO_FILE_BANCO = Bancos/Cods_Bancos.csv  # Archivo de información
 
 # Regla para ejecutar flex++ y generar el código C++ (lex.yy.cc)
-bancos: Bancos/regex_bancos_exe
+bancos: Bancos/regex_bancos_exe	$(INFO_FILE_BANCO)
 	./$< $(INFO_FILE_BANCO) $(INPUT_FILE_BANCO)  
 
 Bancos/regex_bancos.cpp: Bancos/regex_bancos.l
