@@ -26,6 +26,17 @@ DNI-NIE/regex_dni-nie.cpp: DNI-NIE/regex_dni-nie.l
 	$(FLEX) $<
 	mv lex.yy.cc DNI-NIE/regex_dni-nie.cpp
 
+# ----------------------------------------------
+INPUT_FILE_TFNO = Telefonos/telefonos.txt  # Archivo de entrada
+
+# Regla para ejecutar flex++ y generar el código C++ (lex.yy.cc)
+telefonos: Telefonos/regex_tfno_exe
+	./$< $(INPUT_FILE_TFNO)  
+
+Telefonos/regex_tfno.cpp: Telefonos/regex_tfno.l
+	$(FLEX) $<
+	mv lex.yy.cc Telefonos/regex_tfno.cpp
+
 
 
 # Regla para compilar el código C++ generado por flex++
