@@ -27,7 +27,7 @@
 
 using namespace std;
 
-ifstream fichero;
+ifstream f_bancos, fichero;
 
 // Conjunto en el que almacenaremos las cuentas bancarias
 set<string> cuentas_espanolas;
@@ -41,12 +41,12 @@ map<string, string> codigos_bancos;
 
 %option noyywrap
 
-cuentaEspanola   ES[0-9]{2}( [0-9]{4}){5}
+cuentaEspanola  ES[0-9]{2}(" "[0-9]{4}){5}
 
 %%
     /* ---------------REGLAS--------------- */
 
-ES[0-9]{2}(" "[0-9]{4}){5}    {cuentas_espanolas.insert(yytext);}
+{cuentaEspanola}    {cuentas_espanolas.insert(yytext);}
 
 %%
     /*---------------PROCEDIMIENTOS---------------*/
@@ -90,6 +90,13 @@ vector<string> split(const string& str, char delimiter) {
     return tokens;
 }
 
+/**
+ * @brief Función que calcula el resto de un número al dividirlo por 97.
+ * 
+ * @param numero Número a dividir
+ * 
+ * @return int Resto de la división
+ */
 int calcularRestoPor97(const std::string& numero) {
     long long resto = 0;
     
@@ -136,10 +143,10 @@ bool cuenta_espanola_valida(const string &cuenta){
 
 int main (int argc, char *argv[]){
     // Comprobamos que se ha introducido un archivo
-    if (argc == 2){
-        fichero.open (argv[1]);
+    if (argc == 3){
+        fichero.open (argv[2]);
         if (!fichero){
-            cerr << "Error de lecura del archivo a analizar." << endl;
+            cerr << "Error de lecura del archivo de datos." << endl;
             exit (1);
         }
     }
@@ -149,9 +156,7 @@ int main (int argc, char *argv[]){
     }
 
 
-    string archivo_bancos = "Cods_Bancos.csv";
-    ifstream f_bancos;
-    f_bancos.open(archivo_bancos);
+    f_bancos.open(argv[1]);
     if (!f_bancos){
         cerr << "Error de lectura del archivo de códigos de bancos." << endl;
         exit(1);

@@ -414,7 +414,7 @@ static const flex_int16_t yy_chk[42] =
 #define yymore() yymore_used_but_not_detected
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
-#line 1 "regex_bancos.l"
+#line 1 "Bancos/regex_bancos.l"
 /**
  * @file regex.l
  * @brief Menu que:
@@ -430,7 +430,7 @@ static const flex_int16_t yy_chk[42] =
  * @author Joaquín Avilés de la Fuente
  * @date 18 de diciembre de 2024
  */
-#line 18 "regex_bancos.l"
+#line 18 "Bancos/regex_bancos.l"
     /*---------------DECLARACIONES---------------*/
 #include <iostream>
 #include <sstream>
@@ -443,7 +443,7 @@ static const flex_int16_t yy_chk[42] =
 
 using namespace std;
 
-ifstream fichero;
+ifstream f_bancos, fichero;
 
 // Conjunto en el que almacenaremos las cuentas bancarias
 set<string> cuentas_espanolas;
@@ -586,9 +586,9 @@ YY_DECL
 		}
 
 	{
-#line 46 "regex_bancos.l"
+#line 46 "Bancos/regex_bancos.l"
 
-#line 48 "regex_bancos.l"
+#line 48 "Bancos/regex_bancos.l"
     /* ---------------REGLAS--------------- */
 
 #line 595 "lex.yy.cc"
@@ -650,12 +650,12 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 50 "regex_bancos.l"
+#line 50 "Bancos/regex_bancos.l"
 {cuentas_espanolas.insert(yytext);}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 52 "regex_bancos.l"
+#line 52 "Bancos/regex_bancos.l"
 ECHO;
 	YY_BREAK
 #line 662 "lex.yy.cc"
@@ -1621,7 +1621,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 52 "regex_bancos.l"
+#line 52 "Bancos/regex_bancos.l"
 
     /*---------------PROCEDIMIENTOS---------------*/
 
@@ -1664,6 +1664,13 @@ vector<string> split(const string& str, char delimiter) {
     return tokens;
 }
 
+/**
+ * @brief Función que calcula el resto de un número al dividirlo por 97.
+ * 
+ * @param numero Número a dividir
+ * 
+ * @return int Resto de la división
+ */
 int calcularRestoPor97(const std::string& numero) {
     long long resto = 0;
     
@@ -1710,10 +1717,10 @@ bool cuenta_espanola_valida(const string &cuenta){
 
 int main (int argc, char *argv[]){
     // Comprobamos que se ha introducido un archivo
-    if (argc == 2){
-        fichero.open (argv[1]);
+    if (argc == 3){
+        fichero.open (argv[2]);
         if (!fichero){
-            cerr << "Error de lecura del archivo a analizar." << endl;
+            cerr << "Error de lecura del archivo de datos." << endl;
             exit (1);
         }
     }
@@ -1723,9 +1730,7 @@ int main (int argc, char *argv[]){
     }
 
 
-    string archivo_bancos = "Cods_Bancos.csv";
-    ifstream f_bancos;
-    f_bancos.open(archivo_bancos);
+    f_bancos.open(argv[1]);
     if (!f_bancos){
         cerr << "Error de lectura del archivo de códigos de bancos." << endl;
         exit(1);

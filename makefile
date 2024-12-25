@@ -2,16 +2,23 @@
 FLEX = flex++  # Usa flex++ para generar código C++
 COMPILER = g++  # Compilador C++
 FLAGS = -std=c++11 -g -Wall  # Flags para el compilador
-INPUT_FILE = cuentas.txt  # Archivo de entrada
-EXEC_NAME = prueba_bancos  # Nombre del ejecutable
+
+# ----------------------------------------------
+INPUT_FILE_BANCO = Bancos/cuentas.txt  # Archivo de entrada
+INFO_FILE_BANCO = Bancos/Cods_Bancos.csv  # Archivo de información
 
 # Regla para ejecutar flex++ y generar el código C++ (lex.yy.cc)
-bancos: regex_bancos_exe
-	./$< $(INPUT_FILE)  
+bancos: Bancos/regex_bancos_exe
+	./$< $(INFO_FILE_BANCO) $(INPUT_FILE_BANCO)  
 
-regex_bancos.cpp: regex_bancos.l
+Bancos/regex_bancos.cpp: Bancos/regex_bancos.l
 	$(FLEX) $<
-	mv lex.yy.cc regex_bancos.cpp
+	mv lex.yy.cc Bancos/regex_bancos.cpp
+
+# ----------------------------------------------
+dni: 
+
+
 
 # Regla para compilar el código C++ generado por flex++
 %_exe: %.cpp
@@ -19,4 +26,4 @@ regex_bancos.cpp: regex_bancos.l
 
 # Limpiar los archivos generados
 clean:
-	rm -f prueba_bancos lex.yy.cc
+	rm -rf */*_exe */*.cpp
