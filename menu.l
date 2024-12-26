@@ -6,7 +6,7 @@
  *        3. Dado un DNI, comprobar si es válido.
  *        4. Dado un número de tarjeta de crédito, indicar de qué entidad bancaria es.
  *
- *  Usaremos para ellos los distintos programas creados en las carpetas, de forma que a estos les pasaremos
+ *  Se usa para ello los distintos programas creados en las carpetas, de forma que a estos les pasaremos
  *  un archivo .txt especial con la entrada introducida por el usuario y mostrándo por tanto en pantalla su salida usual
  *  en función del archivo dado.
  * 
