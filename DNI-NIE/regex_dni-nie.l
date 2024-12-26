@@ -1,13 +1,13 @@
 /**
- * @file regex.l
+ * @file regex_dni-nie.l
  * @brief Menu que:
  * 
  * @note
  *      Compilación:
- *          1. flex++ -o regex_bancos.cpp regex_bancos.l
- *          2. g++ -Wall -o regex_bancos regex_bancos.cpp
+ *          1. flex++ -o regex_dni-nie.cpp regex_dni-nie.l
+ *          2. g++ -Wall -o regex_dni-nie regex_dni-nie.cpp
  *      Ejecución:
- *          1. ./regex_bancos
+ *          1. ./regex_dni-nie_exe
  * 
  * @author Arturo Olivares Martos
  * @author Joaquín Avilés de la Fuente
