@@ -65,24 +65,24 @@ Telefonos/regex_tfno-menu.cpp: Telefonos/regex_tfno.l
 
 
 # ----------------------------------------------
-INPUT_FILE_GMAIL = GMAIL/gmail.txt  # Archivo de entrada
-INPUT_FILE_GMAIL-MENU = GMAIL/gmail-menu.txt  # Archivo de entrada
+INPUT_FILE_EMAIL = EMAIL/email.txt  # Archivo de entrada
+INPUT_FILE_EMAIL-MENU = EMAIL/email-menu.txt  # Archivo de entrada
 
 
 # Regla para ejecutar flex++ y generar el código C++ (lex.yy.cc)
-gmail: GMAIL/regex_tfno_exe
-	./$< $(INPUT_FILE_GMAIL) 
+email: EMAIL/regex_email_exe
+	./$< $(INPUT_FILE_EMAIL) 
 
-gmail-menu: GMAIL/regex_gmail-menu_exe
-	./$< $(INPUT_FILE_GMAIL-MENU)   
+email-menu: EMAIL/regex_email-menu_exe
+	./$< $(INPUT_FILE_EMAIL-MENU)   
 
-GMAIL/regex_gmail.cpp: GMAIL/regex_gmail.l
+EMAIL/regex_email.cpp: EMAIL/regex_email.l
 	$(FLEX) $<
-	mv lex.yy.cc GMAIL/regex_gmail.cpp
+	mv lex.yy.cc EMAIL/regex_email.cpp
 
-GMAIL/regex_gmail-menu.cpp: GMAIL/regex_gmail.l
+EMAIL/regex_email-menu.cpp: EMAIL/regex_email.l
 	$(FLEX) $<
-	mv lex.yy.cc GMAIL/regex_gmail-menu.cpp
+	mv lex.yy.cc EMAIL/regex_email-menu.cpp
 
 # ----------------------------------------------
 

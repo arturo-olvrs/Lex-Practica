@@ -76,6 +76,8 @@ int main (int argc, char *argv[]){
                 break;
             case 2:
                 cout << "Has elegido la opción 2" << endl;
+                comando="make email-menu";
+                archivo="EMAIL/email-menu.txt";
                 break;
             case 3:
                 cout << "Has elegido la opción 3" << endl;

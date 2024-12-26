@@ -32,6 +32,8 @@ ifstream fichero;
 // Conjunto en el que almacenaremos los DNI's y los NIE's
 vector<string> dnis, nies;
 
+vector<string> dnis_validos, nies_validos;
+
 %}
 
 %option noyywrap
@@ -96,8 +98,6 @@ int main (int argc, char *argv[]){
     flujo.yylex();
     cout << endl;
 
-    vector<string> dnis_validos;
-
     string dni;
     
     // Mostramos los DNI's leidos y añadimos los que sean realmente
@@ -112,9 +112,6 @@ int main (int argc, char *argv[]){
         else
             it++;
     }
-
-   // cout << "NIE's leidos" << endl;
-   vector<string> nies_validos;
 
    string nie, nie_aux;
    vector<char> usado;
@@ -180,4 +177,6 @@ int main (int argc, char *argv[]){
     for(auto it=nies_validos.begin(); it<nies_validos.end(); it++){
         cout << "\t- " << *it << endl;
     }
+
+    return 0;
 }
