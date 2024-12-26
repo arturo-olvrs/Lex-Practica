@@ -1,6 +1,7 @@
 /**
  * @file regex_dni-nie.l
- * @brief Menu que:
+ * @brief Programa que analiza una serie de cadenas de texto, indicando cuales de ellas
+ *        son DNI's y NIE's válidos.
  * 
  * @note
  *      Compilación:

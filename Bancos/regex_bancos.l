@@ -1,6 +1,9 @@
 /**
  * @file regex.l
- * @brief Menu que:
+ * @brief Programa que analiza una serie de cadenas de texto, indicando cuales de ellas son
+ *        cuentas bancarias, y si lo son, indica además a que banco pertenecen, banco que debe 
+ *        ser recogido en un archio extensión .csv pasado por el usuario (en nuestro caso
+ *        usaremos el archivo Cods_Bancos.csv).
  * 
  * @note
  *      Compilación:

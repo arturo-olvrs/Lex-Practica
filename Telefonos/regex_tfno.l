@@ -1,12 +1,13 @@
 /**
  * @file regex_tfno.l
- * @brief Programa que analiza una serie de números de teléfono, indicando de qué país son.
+ * @brief Programa que analiza una serie de cadenas de texto, indicando cuales de ellas son
+ *        números de teléfono válidos en España.
  * @note
  *      Compilación:
  *          1. flex++ -o regex_tfno.cpp regex_tfno.l
  *          2. g++ -Wall -o regex_tfno regex_tfno.cpp -lfl
  *      Ejecución:
- *          1. ./regex_tfno
+ *          1. ./regex_tfno_exe telefono.txt
  * 
  * @author Arturo Olivares Martos
  * @author Joaquín Avilés de la Fuente

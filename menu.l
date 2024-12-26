@@ -1,13 +1,21 @@
 /**
  * @file regex.l
- * @brief Menu que:
+ * @brief Menu que permite al usuario elegir entre distintas opciones de expresiones regulares:
+ *        1. Dado un teléfono, comprobar si es válido en España.
+ *        2. Dado un correo electrónico, comprobar si es válido.
+ *        3. Dado un DNI, comprobar si es válido.
+ *        4. Dado un número de tarjeta de crédito, indicar de qué entidad bancaria es.
+ *
+ *  Usaremos para ellos los distintos programas creados en las carpetas, de forma que a estos les pasaremos
+ *  un archivo .txt especial con la entrada introducida por el usuario y mostrándo por tanto en pantalla su salida usual
+ *  en función del archivo dado.
  * 
  * @note
  *      Compilación:
- *          1. flex++ -o regex.cpp regex.l
- *          2. g++ -Wall -o regex regex.cpp
+ *          1. flex++ -o menu.cpp menu.l
+ *          2. g++ -Wall -o menu_exe menu.cpp
  *      Ejecución:
- *          1. ./regex
+ *          1. ./menu_exe
  * 
  * @author Arturo Olivares Martos
  * @author Joaquín Avilés de la Fuente
@@ -43,7 +51,7 @@ linea   \n
 
 void imprime_menu(){
     cout << "Menú:" << endl;
-    cout << "\t1. Dado un teléfono, comprobar en qué países es válido." << endl;
+    cout << "\t1. Dado un teléfono, comprobar si es válido en España." << endl;
     cout << "\t2. Dado un correo electrónico, comprobar si es válido." << endl;
     cout << "\t3. Dado un DNI, comprobar si es válido." << endl;
     cout << "\t4. Dado un número de tarjeta de crédito, indicar de qué entidad bancaria es." << endl;
