@@ -3,6 +3,8 @@
  * @brief Programa que analiza una serie de cadenas de texto, indicando cuales de ellas
  *        son correos electrónicos válidos, basandonos en las siguientes reglas y viendo la 
  *        la expresión regular definida más abajo.
+ *
+ * @param fichero Archivo de texto que contiene las cadenas a analizar.
  * 
  * Reglas para los correos electrónicos:
  *  - Deben contener un conjunto de caracteres alfanuméricos seguido de un @.
@@ -20,7 +22,7 @@
  *          1. flex++ -o regex_email.cpp regex_email.l
  *          2. g++ -Wall -o regex_email regex_email.cpp
  *      Ejecución:
- *          1. ./regex_email_exe email.txt
+ *          1. ./regex_email_exe <fichero>
  *
  *  Notar que esta compilación y ejecución se hace mediante make email , pues
  *  al usar el menu se hará otro tipo de compilación y ejecución, la cual está definida
@@ -54,7 +56,7 @@ vector<string> emails;
 
 %option noyywrap
 
-EMAIL   [a-zA-Z0-9]+((\.|-)?[a-zA-Z0-9]+)*@([0-9]*[a-zA-Z]+[0-9]*)+\.(com|es|org)
+EMAIL   [a-zA-Z0-9]+((\.|-)?[a-zA-Z0-9]+)*@[0-9]*[a-zA-Z]+[a-zA-Z0-9]*\.(com|es|org)
 
 %%
     /* ---------------REGLAS--------------- */
