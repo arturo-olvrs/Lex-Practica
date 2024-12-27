@@ -2,12 +2,14 @@
  * @file regex_tfno.l
  * @brief Programa que analiza una serie de cadenas de texto, indicando cuales de ellas son
  *        números de teléfono válidos en España.
+ *
+ * @param fichero Archivo de texto que contiene las cadenas a analizar.
  * @note
  *      Compilación:
  *          1. flex++ -o regex_tfno.cpp regex_tfno.l
  *          2. g++ -Wall -o regex_tfno regex_tfno.cpp -lfl
  *      Ejecución:
- *          1. ./regex_tfno_exe telefono.txt
+ *          1. ./regex_tfno_exe <fichero>
  * 
  * @author Arturo Olivares Martos
  * @author Joaquín Avilés de la Fuente
@@ -41,7 +43,7 @@ tfno_espanol_grupos2  ((00|"+")34(" ")?)?([0-9]{3}(" ")?){1}([0-9]{2}(" ")?){3}
 %%
     /* ---------------REGLAS--------------- */
 
-{tfno_espanol_grupos3}|{tfno_espanol_grupos2}   {   tfno_pais["España"].insert(yytext);}
+^{tfno_espanol_grupos3}|{tfno_espanol_grupos2}$   {   tfno_pais["España"].insert(yytext);}
 \n                  {   ; }
 [^ \n]+             {   cout << "\t- " << yytext << endl; }
 
