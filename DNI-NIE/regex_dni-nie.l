@@ -6,7 +6,7 @@
  * @note
  *      Compilación:
  *          1. flex++ -o regex_dni-nie.cpp regex_dni-nie.l
- *          2. g++ -Wall -o regex_dni-nie regex_dni-nie.cpp
+ *          2. g++ -Wall -o regex_dni-nie regex_dni-nie.cpp -lfl
  *      Ejecución:
  *          1. ./regex_dni-nie_exe
  * 
@@ -61,7 +61,7 @@ NIE  [XYZ](" "|"-")?[0-9]{7}(" "|"-")?[A-Z]
  * @return true Si el DNI es válido
  * @return false Si el DNI no es válido
  */
-bool dni_valido(const string dni, vector<char> &cadena_final, const int divisor){
+bool dni_valido(const string& dni, const vector<char> &cadena_final, const int divisor){
     int num=stoi(dni.substr(0,8));
     int resto=num%divisor;
     char letra;
@@ -76,6 +76,8 @@ bool dni_valido(const string dni, vector<char> &cadena_final, const int divisor)
 
 int main (int argc, char *argv[]){
 
+    // Variables necesarias para el cálculo de la letra del DNI
+    // Consultar https://www.interior.gob.es/opencms/es/servicios-al-ciudadano/tramites-y-gestiones/dni/calculo-del-digito-de-control-del-nif-nie/
     const string CADENA="TRWAGMYFPDXBNJZSQVHLCKE";
     const int DIVISOR=23;
 
@@ -128,17 +130,8 @@ int main (int argc, char *argv[]){
         // En función de la primera letra pondremos un número inicial
         // u otro y haremos la comprobación de si es un NIE válido
         // igual que si fuera un DNI cambiando dicha letra por el número
-        switch(usado[0]){
-            case 'X':
-                usado[0]='0';
-                break;
-            case 'Y':
-                usado[0]='1';
-                break;
-            case 'Z':
-                usado[0]='2';
-                break;
-        }
+        // Se sustituyen las letras X, Y y Z por 0, 1 y 2 respectivamente
+       usado[0]= '0' + (usado[0] - 'X');
 
         if(usado[1]== ' ' || usado[1] == '-'){
             usado.erase(usado.begin()+1);

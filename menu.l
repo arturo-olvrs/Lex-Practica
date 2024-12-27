@@ -34,7 +34,7 @@ using namespace std;
 
 int nl;
 
-ofstream prueba;
+ofstream f_escritura;
 
 %}
 
@@ -44,7 +44,7 @@ linea   \n
 
 %%
     /*---------------REGLAS---------------*/
-\n  { nl++;}
+{linea}  { nl++;}
 
 %%
     /*---------------PROCEDIMIENTOS---------------*/
@@ -76,29 +76,37 @@ int main (int argc, char *argv[]){
 
     while(opcion_elegida == INICIAL){
         getline(cin, opcion_elegida);
+        try{
+            stoi(opcion_elegida);
+        }
+        catch(...){
+            // Si no se introduce un número, se establece en la opción inicial
+            // para que se lance el mensaje de error
+            opcion_elegida=INICIAL;
+        }
         switch(stoi(opcion_elegida)){
             case 1:
-                cout << "Has elegido la opción 1" << endl;
+                cout << "Has elegido la opción 1 (Teléfonos)" << endl;
                 comando="make telefonos-menu";
                 archivo="Telefonos/telefonos-menu.txt";
                 break;
             case 2:
-                cout << "Has elegido la opción 2" << endl;
+                cout << "Has elegido la opción 2 (EMAIL)" << endl;
                 comando="make email-menu";
                 archivo="EMAIL/email-menu.txt";
                 break;
             case 3:
-                cout << "Has elegido la opción 3" << endl;
+                cout << "Has elegido la opción 3 (DNI-NIE)" << endl;
                 comando="make dni-nie-menu";
                 archivo="DNI-NIE/dni-nie-menu.txt";
                 break;
             case 4:
-                cout << "Has elegido la opción 4" << endl;
+                cout << "Has elegido la opción 4 (Cuentas Bancarias)" << endl;
                 comando="make bancos-menu";
                 archivo="Bancos/cuentas-menu.txt";
                 break;
             default:
-                cout << "Opción no válida" << endl;
+                cout << "Opción no válida. Intente de nuevo." << endl;
                 opcion_elegida=INICIAL;
                 break;
         }
@@ -123,18 +131,18 @@ int main (int argc, char *argv[]){
 
     // Se abre el archivo definido (se crea si no existe) y con la funcion
     // ios::trunc se se sobreescribe si ya existía
-    prueba.open(archivo, ios::trunc);
+    f_escritura.open(archivo, ios::trunc);
 
-    if (!prueba){
+    if (!f_escritura){
         cerr << "Error de escritura del archivo (" << archivo << ")." << endl;
         exit(1);
     }
 
     // Se escribe el contenido del stringstream en el archivo
-    prueba << input_data << endl;
+    f_escritura << input_data << endl;
 
     // Se cierre el archivo
-    prueba.close();
+    f_escritura.close();
 
     // Se ejecuta el comando definido
     system(comando.c_str());

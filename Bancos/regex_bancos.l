@@ -8,7 +8,7 @@
  * @note
  *      Compilación:
  *          1. flex++ -o regex_bancos.cpp regex_bancos.l
- *          2. g++ -Wall -o regex_bancos regex_bancos.cpp
+ *          2. g++ -Wall -o regex_bancos regex_bancos.cpp -lfl
  *      Ejecución:
  *          1. ./regex_bancos
  * 
