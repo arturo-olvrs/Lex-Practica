@@ -74,4 +74,5 @@ menu: menu_exe
 # Limpiar los archivos generados
 clean:
 	rm -rf */*_exe */*.cpp
-	rm -rf *_exe *.cpp
+	rm -rf *_exe
+	find . -type f -name "*.cpp" ! -name "menu.cpp" -exec rm -f {} +

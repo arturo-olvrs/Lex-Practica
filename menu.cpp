@@ -1,5 +1,5 @@
 /**
- * @file regex.l
+ * @file menu.cpp
  * @brief Menu que permite al usuario elegir entre distintas opciones de expresiones regulares:
  *        1. Dado un teléfono, comprobar si es válido en España.
  *        2. Dado un correo electrónico, comprobar si es válido.
@@ -12,8 +12,7 @@
  * 
  * @note
  *      Compilación:
- *          1. flex++ -o menu.cpp menu.l
- *          2. g++ -Wall -o menu_exe menu.cpp
+ *          1. g++ -Wall -o menu_exe menu.cpp
  *      Ejecución:
  *          1. ./menu_exe
  * 
@@ -22,8 +21,6 @@
  * @date 18 de diciembre de 2024
  */
 
-    /*---------------DECLARACIONES---------------*/
-%{
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -31,23 +28,7 @@
 
 
 using namespace std;
-
-int nl;
-
 ofstream f_escritura;
-
-%}
-
-%option noyywrap
-
-linea   \n
-
-%%
-    /*---------------REGLAS---------------*/
-{linea}  { nl++;}
-
-%%
-    /*---------------PROCEDIMIENTOS---------------*/
 
 void imprime_menu(){
     cout << "Menú:" << endl;
@@ -62,7 +43,6 @@ void imprime_menu(){
 int main (int argc, char *argv[]){
     const string INICIAL="0";
 
-    nl = 0;
     string input;
     string line;
     stringstream ss;
@@ -124,15 +104,10 @@ int main (int argc, char *argv[]){
 
     // Pasar el contenido del stringstream al analizador léxico
     string input_data = ss.str();
-    istringstream input_stream(input_data);
-    yyFlexLexer flujo(&input_stream, 0);
-    flujo.yylex();
-    cout << endl;
 
     // Se abre el archivo definido (se crea si no existe) y con la funcion
     // ios::trunc se se sobreescribe si ya existía
     f_escritura.open(archivo, ios::trunc);
-
     if (!f_escritura){
         cerr << "Error de escritura del archivo (" << archivo << ")." << endl;
         exit(1);
@@ -147,6 +122,5 @@ int main (int argc, char *argv[]){
     // Se ejecuta el comando definido
     system(comando.c_str());
 
-    cout << "Número de líneas: " << nl << endl;
     return 0;
 }
