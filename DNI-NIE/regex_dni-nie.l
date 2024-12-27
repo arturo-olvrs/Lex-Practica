@@ -57,11 +57,11 @@ NIE  [XYZ](" "|"-")?[0-9]{7}(" "|"-")?[A-Z]
  * @brief Función que comprueba si un DNI es válido.
  * 
  * @param dni DNI a comprobar
- * @param cadena_final Cadena de caracteres que se utilizará para calcular la letra del DNI
+ * @param CADENA Cadena de caracteres que se utilizará para calcular la letra del DNI
  * @return true Si el DNI es válido
  * @return false Si el DNI no es válido
  */
-bool dni_valido(const string& dni, const vector<char> &cadena_final, const int divisor){
+bool dni_valido(const string& dni, const string &CADENA, const int divisor){
     int num=stoi(dni.substr(0,8));
     int resto=num%divisor;
     char letra;
@@ -71,7 +71,7 @@ bool dni_valido(const string& dni, const vector<char> &cadena_final, const int d
     else
         letra=dni[8];
 
-    return letra==cadena_final[resto];
+    return letra==CADENA[resto];
 }
 
 int main (int argc, char *argv[]){
@@ -94,8 +94,6 @@ int main (int argc, char *argv[]){
     }
 
 
-    vector<char> cadena_final(CADENA.begin(), CADENA.end());
-
     cout << "Cadenas leidas que no pueden ser DNI's ni NIE's: " << endl;
     yyFlexLexer flujo (&fichero,0);
     flujo.yylex();
@@ -108,7 +106,7 @@ int main (int argc, char *argv[]){
     auto it=dnis.begin();
     while(it!=dnis.end()){
         string dni=*it;
-        if(dni_valido(dni, cadena_final, DIVISOR)){
+        if(dni_valido(dni, CADENA, DIVISOR)){
             dnis_validos.push_back(dni);
             dnis.erase(it);
         }
@@ -116,30 +114,29 @@ int main (int argc, char *argv[]){
             it++;
     }
 
-   string nie, nie_aux;
-   vector<char> usado;
-
-    // Mostramos los NIE's leidos y añadimos los que sean realmente
+    // Estudiamos cada NIE leido y añadimos los que sean realmente
     // NIE's al vector nies_validos
     it=nies.begin();
+    string nie, nie_aux;
     while(it!=nies.end()){
         nie=*it;
-        usado.clear();
-        usado.insert(usado.end(), nie.begin(), nie.end());
+
+        // Hacemos una copia del NIE para poder modificarlo
+        nie_aux = nie;
 
         // En función de la primera letra pondremos un número inicial
         // u otro y haremos la comprobación de si es un NIE válido
         // igual que si fuera un DNI cambiando dicha letra por el número
         // Se sustituyen las letras X, Y y Z por 0, 1 y 2 respectivamente
-       usado[0]= '0' + (usado[0] - 'X');
+       nie_aux[0]= '0' + (nie_aux[0] - 'X');
 
-        if(usado[1]== ' ' || usado[1] == '-'){
-            usado.erase(usado.begin()+1);
+        // Si el NIE tiene un espacio o un guión después de la letra, lo eliminamos
+        if(nie_aux[1]== ' ' || nie_aux[1] == '-'){
+            nie_aux.erase(nie_aux.begin()+1);
         }
 
-        nie_aux.assign(usado.begin(), usado.end());
 
-        if(dni_valido(nie_aux, cadena_final, DIVISOR)){
+        if(dni_valido(nie_aux, CADENA, DIVISOR)){
             nies_validos.push_back(nie);
             nies.erase(it);
         }
