@@ -10,4 +10,4 @@
 ---
 
 - La memoria se encuentra [aquí](./Memoria/memoria.pdf)
-- El ejecutable que incluye todas las opciones se encuentra [aquí](./main.cpp)
+- El ejecutable que incluye todas las opciones se encuentra [aquí](./menu.cpp)
